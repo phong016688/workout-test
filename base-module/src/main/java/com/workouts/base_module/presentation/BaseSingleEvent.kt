@@ -1,0 +1,3 @@
+package com.workouts.base_module.presentation
+
+interface BaseSingleEvent

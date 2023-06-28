@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Workouts Test</string>
+    <string name="exercises_no_status">%d exercises</string>
+    <string name="missed">Missed</string>
+    <string name="completed">Completed</string>
+    <string name="exercises_missed">Missed • %d exercises</string>
+</resources>

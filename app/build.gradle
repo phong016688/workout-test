@@ -1,0 +1,102 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-parcelize'
+    id 'org.jetbrains.kotlin.kapt'
+}
+
+android {
+    namespace 'com.example.workoutstest'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.example.workoutstest"
+        minSdk 28
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug{
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def project = "workouts"
+            def SEP = "_"
+            def version = variant.versionName
+            def date = new Date()
+            def formattedDate = date.format('ddMMyy_HHmm')
+            def newApkName = project + SEP + version + SEP + formattedDate + ".apk"
+            outputFileName = new File(newApkName)
+        }
+        def BASE_URL = "http://demo5364288.mockable.io/"
+        variant.buildConfigField "String", "BASE_URL", "\"${BASE_URL}\""
+    }
+}
+
+dependencies {
+    // Core
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    implementation 'androidx.activity:activity-ktx:1.7.2'
+
+    // View
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    // ViewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+
+    // Dagger hilt
+    implementation 'com.google.dagger:hilt-android:2.45'
+    implementation 'com.google.dagger:hilt-core:2.45'
+    kapt 'com.google.dagger:hilt-compiler:2.45'
+
+    // Coroutine
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+
+    // Timber
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+
+    // Gson, Okhttp, Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.10'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11'
+
+    // Base module
+    api project(path: ':base-module')
+
+    // Test
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
